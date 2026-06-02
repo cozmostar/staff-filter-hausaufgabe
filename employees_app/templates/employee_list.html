@@ -4,6 +4,39 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Staff Filter App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.5;
+        max-width: 960px;
+        margin: 32px auto;
+        padding: 0 20px;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-bottom: 24px;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px 10px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      .answer-box {
+        background-color: #f8f8f8;
+        border-left: 4px solid #2f855a;
+        padding: 12px 16px;
+        margin-bottom: 20px;
+      }
+    </style>
   </head>
   <body>
     <h1>Staff Filter App</h1>
@@ -20,8 +53,64 @@
       <li>Welche Mitarbeiter wurden vor dem 1. Januar 2022 eingestellt und gehören NICHT zur Abteilung HR?</li>
     </ol>
 
-    <h2 style="color:red">Antworten:</h2>
+    <h2 style="color: red">Antworten:</h2>
 
-    <!-- Hier eure Antworten rendern -->
+    <section class="answer-box">
+      <h3>1. Alle Mitarbeiter</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Abteilung</th>
+            <th>Gehalt</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for employee in employees %}
+            <tr>
+              <td>{{ employee.name }}</td>
+              <td>{{ employee.department.name }}</td>
+              <td>{{ employee.salary }} €</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="3">Keine Mitarbeiter vorhanden.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <section class="answer-box">
+      <h3>2. Mitarbeiter mit mehr als 3000 € Gehalt</h3>
+      <ul>
+        {% for employee in employees_over_3000 %}
+          <li>{{ employee.name }}</li>
+        {% empty %}
+          <li>Keine Mitarbeiter gefunden.</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section class="answer-box">
+      <h3>3. Anzahl Mitarbeiter mit 5000 € oder mehr Gehalt</h3>
+      <p>{{ employees_5000_or_more_count }}</p>
+    </section>
+
+    <section class="answer-box">
+      <h3>4. Durchschnittsgehalt im Sales-Team</h3>
+      <p>{{ sales_average_salary }} €</p>
+    </section>
+
+    <section class="answer-box">
+      <h3>5. Mitarbeiter, die vor dem 1. Januar 2022 eingestellt wurden und nicht in HR sind</h3>
+      <ul>
+        {% for employee in hired_before_2022_not_hr %}
+          <li>{{ employee.name }} – {{ employee.department.name }} – eingestellt am {{ employee.hire_date }}</li>
+        {% empty %}
+          <li>Keine Mitarbeiter gefunden.</li>
+        {% endfor %}
+      </ul>
+    </section>
   </body>
 </html>
