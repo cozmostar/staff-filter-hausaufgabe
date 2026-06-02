@@ -47,5 +47,11 @@ class EmployeeOverviewViewTest(TestCase):
         self.assertIn("Sales", content)
         self.assertIn("Mitarbeiter mit mehr als 3000", content)
         self.assertIn("Anzahl Mitarbeiter mit 5000", content)
-        self.assertIn("3466.67", content)
+        self.assertIn("3466,67", content)
         self.assertIn("vor dem 1. Januar 2022", content)
+        self.assertIn("1. März 2021", content)
+
+    def test_root_redirects_to_employee_overview(self):
+        response = self.client.get("/")
+
+        self.assertRedirects(response, reverse("employee_overview"), fetch_redirect_response=False)
